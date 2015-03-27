@@ -16,9 +16,11 @@ serversocket.bind((host,port))
 serversocket.listen(5)
 
 # create empty game object
+gameEnd = True
+maxconnect = 2
+currconnect = 0
 
-
-while True:
+while gameEnd:
 	# establish a connection
 	clientsocket,addr = serversocket.accept()
 	
@@ -26,4 +28,8 @@ while True:
 	currentTime = time.ctime(time.time()) + "\r\n"
 	clientsocket.send(currentTime.encode('ascii'))
 	clientsocket.close()
+	
+	currconnect += 1
+	if currconnect >= maxconnect:
+		gameEnd = False
 	
