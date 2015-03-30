@@ -1,6 +1,6 @@
 import socket
 
-# create a socket objct
+# create a socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # get local machine name
@@ -12,8 +12,15 @@ port = 9999
 s.connect((host,port))
 
 # Receive no more than 1024 bytes
-tm = s.recv(1024)
+num = 0
+gameEnd = False
+while not gameEnd:
+	s.sendall(bytes(str(num),encoding='ascii'))
+	num += 1
+	msg = s.recv(1024)
+	if msg == "end":
+		gameEnd = True
+	else:
+		print(msg)
 
 s.close()
-
-print("The time got from the server is %s" % tm.decode('ascii'))
